@@ -21,9 +21,9 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-androidx-room-ktx = { group = "adnroid.room", name = "room-ktx", version.ref = "room" }
-android-room-runtime = { group = "adnroid.room", name = "room-runtime", version.ref = "room" }
-android-room-compiler = { group = "adnroid.room", name = "room-compiler", version.ref = "room" }
+androidx-room-ktx = { group = "android.room", name = "room-ktx", version.ref = "room" }
+androidx-room-runtime = { group = "android.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "android.room", name = "room-compiler", version.ref = "room" }
 
 
 [plugins]
