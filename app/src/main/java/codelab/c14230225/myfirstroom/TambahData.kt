@@ -1,8 +1,12 @@
 package codelab.c14230225.myfirstroom
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -34,6 +38,37 @@ class TambahData : AppCompatActivity() {
         val _btnAdd = findViewById<Button>(R.id.btnTambah)
         val _btnEdit = findViewById<Button>(R.id.btnUpdate)
 
+        val _xmlAdd = findViewById<TextView>(R.id.txtAddTitle)
+        val _xmlUpd = findViewById<TextView>(R.id.txtUpdTitle)
+
+        var iID : Int = 0
+        var iAddEdit : Int = 0
+
+        iID = intent.getIntExtra("noteId", 0)
+        iAddEdit = intent.getIntExtra("addEdit", 0)
+
+        if (iAddEdit == 0){
+            _btnAdd.visibility = View.VISIBLE
+            _btnEdit.visibility = View.GONE
+            _inJudul.isEnabled = true
+
+            _xmlAdd.visibility = View.VISIBLE
+            _xmlUpd.visibility = View.GONE
+        } else {
+            _btnAdd.visibility = View.GONE
+            _btnEdit.visibility = View.VISIBLE
+            _inJudul.isEnabled = false
+
+            _xmlAdd.visibility = View.GONE
+            _xmlUpd.visibility = View.VISIBLE
+
+            CoroutineScope(Dispatchers.IO).async {
+                val noteItem = DB.funnoteDao().getNote(iID)
+                _inJudul.setText(noteItem.judul)
+                _inDeskripsi.setText(noteItem.deskripsi)
+            }
+        }
+
         _btnAdd.setOnClickListener {
             CoroutineScope(Dispatchers.IO).async {
                 DB.funnoteDao().insert(
@@ -45,6 +80,19 @@ class TambahData : AppCompatActivity() {
                     )
                 )
             }
+            Toast.makeText(this ,"Add Successful", Toast.LENGTH_SHORT).show()
+        }
+
+        _btnEdit.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).async {
+                DB.funnoteDao().update(
+                    _inJudul.text.toString(),
+                    _inDeskripsi.text.toString(),
+                    iID
+                )
+                finish()
+            }
+            Toast.makeText(this ,"Update Successful", Toast.LENGTH_SHORT).show()
         }
     }
 }
